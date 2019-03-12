@@ -1,0 +1,192 @@
+# Temporary step by step installation instructions for a 
+# manocoin masternode AFTER 
+# the swap of march 11, 2019
+# 
+# EVERY INSTRUCTION THAT YOU USE FROM THIS DOCUMENT IS AT YOUR OWN RISK
+#
+# LAST WARNING - THIS IS FOR THE NEW MANOCOIN - AFTER THE SWAP OF MARCH 11 - 2019
+#
+#
+# Used on Ubuntu 16.04 VPS on Vultr
+#
+# Download the new mano wallet and install it on your desktop machine: https://gitlab.com/manocoin/manocoin/tree/master/releases
+#
+# Start the wallet
+#  
+# Create a wallet address 
+# File -> receiving addresses -> new
+# Send 1 mano to it to test if everything is ok
+# 	If that worked, good!
+#
+# Create a new wallet address 
+# Send the collateral (new collateral for mano is exact 2500) to this new address
+# 
+# 		Note about collateral: mind the transfer fee! 
+#		If the transfer fee is 1 and this is deducted from the 2500,
+#		then only 2499 will be sent.
+# 
+# 		Because this amount is less then the required 2500 it will not work. Also higher amounts than 2500 will not work.
+#
+# 		So exactly 2500, PLUS a small amount that is exactly enough to pay for the transfer. 
+#
+#		(most withdraw/send software propose the required amount for the transaction)
+#
+# Create a private key:
+#  open the debug console:
+#  Menu -> tools -> debug console
+#  Type: 
+# masternode genkey
+
+#  The command outputs a string, which is your private key - looking something like this:
+#  93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg
+#  Copy this key somewhere, you need it later.
+#
+#
+# Installing the daemon on the VPS
+# Open up a terminalwindow to your VPS (with putty)
+# If you aren't already, go to your home directory (/root/ in my case) 
+cd ~
+
+# Download the zip file containing the daemon and the cli from the gitlab repository:
+wget https://gitlab.com/manocoin/manocoin/raw/master/releases/mano-1.0.0-x86_64-linux-gnu.tar.gz
+
+# unpack it
+tar xvzf mano-1.0.0-x86_64-linux-gnu.tar.gz
+
+# change into the extracted directory
+cd mano-1.0.0/bin
+
+# Make the daemon and the cli executable
+chmod +x manod mano-cli
+
+# copy them into the bin folder
+cp manod mano-cli /usr/local/bin/
+
+# change back to the home directory
+cd ~
+
+# run manod once to confirm it works (and also create a few files for us) 
+manod
+
+# Wait for a few moments for it to create the .manocoin directory and the configuration file and some other stuff
+# Press Ctrl + c to stop the daemon
+
+# Now edit the file mano.conf to configure the masternode
+# Copy the following, edit it with your own settings and place it in your mano.conf configuration file
+
+# ------------------- Beginning of the file .manocoin/mano.conf: ---------------------------------------------
+
+rpcuser=YOURUSER
+rpcpassword=YOURPASS
+rpcallowip=127.0.0.1
+#----
+listen=1
+server=1
+daemon=1
+maxconnections=64
+#----
+masternode=1
+masternodeprivkey=YOURKey
+externalip=YOURIP:12777
+
+# ------------------- End of the file ---------------------------------------------
+
+# ------------------- Configuration settings: ---------------------------------------------
+#
+# rpcuser=YOURUSER (and YOURPASS) is a string, make it hard to guess: useru80uhl3kjhgo87hwh3goj 
+# rpcpassword=YOURPASS
+#
+# externalip= the ip address of the machine running the masternode (your VPS)
+# 	Find IP address: execute this command from the commandline on your masternode box: 
+# 	hostname -I
+# 	when your IP is: 80.70.60.50
+# 	The line in mano.conf should read:
+# 	externalip=80.70.60.50:12777
+#
+# masternodeprivkey= the private key you generated with 'masternode genkey' in the debug window of your QT wallet on your Windows/Mac machine:
+#
+# ------------------- End configuration settings  ---------------------------------------------
+
+# To open and edit the configuration file:
+nano .manocoin/mano.conf
+
+# When you are done editing the mano.conf file, save it: 
+# Press Ctrl+x and then 'y' for yes, followed by 'Enter'
+
+# Start the daemon:
+manod
+
+# Note that as the network is still small... It may take a while before you begin syncing.
+# Check if it has finished syncing:
+mano-cli mnsync status
+
+# Check the masternode status
+mano-cli masternode status
+
+# If 'mano-cli masternode status' produces the following, you are good:
+# error: {"code":-1,"message":"Masternode not found in the list of available masternodes. Current status: Not capable masternode: Hot node, waiting for remote activation."}
+
+# Now in your QT desktop wallet, open the debug console:
+# Menu -> tools -> debug console
+# Type: 
+# masternode outputs
+# it produces a result like this:
+[
+  {
+    "txhash": "741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39",
+    "outputidx": 0
+  }
+]
+
+# In the masternode.conf file you have create a line for your masternode in the following format:
+# Format: alias IP:port masternodeprivkey collateral_output_txid collateral_output_index
+#
+# Let's say your alias is 'mano1'
+# your VPS's IP is 80.70.60.50
+# mano portnumber is: 12777
+# your masternodeprivkey is 93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg (produced by masternode outputs earlier on)
+# Your collateral_output_txid = txhash output from the masternode outputs command you just typed, so: 741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39
+# the collateral_output_index is the outputidx from the masternode outputs command, so: 0
+#
+# The line in the masternode.conf will look like this:
+# mano1 80.70.60.50:12777 93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39 0
+
+# Open the masternode.conf of your QT Mano desktop wallet by selecting:
+# tools -> Open masternode configuration file
+# paste the line at the end of the file, 
+# save the file and restart (quit and then start again) the QT Mano wallet
+
+
+#  When the mano wallet has started again, open the debug console:
+# Menu -> tools -> debug console
+#  Start the masternode:
+# startmasternode alias false mano1
+
+# If it shows that the result is succesful, your masternode is running!
+#
+# {
+#   "overall": "Successfully started 1 masternodes, failed to start 0, total 1",
+#   "detail": [
+#     {
+#       "alias": "mano1",
+#       "result": "successful"
+#     }
+#   ]
+# }
+
+
+# You can verify if it is running on the VPS by typing:
+mano-cli masternode status
+
+# To clean up 
+# You don't need the downloaded files anymore so:
+cd ~
+rm mano-1.0.0-x86_64-linux-gnu.tar.gz
+rm -rf mano-1.0.0
+#
+# Good luck!
+#
+# Peace!
+#
+# EVERY INSTRUCTION THAT YOU USE FROM THIS DOCUMENT IS AT YOUR OWN RISK
+#
