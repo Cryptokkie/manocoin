@@ -143,10 +143,10 @@ mano-cli masternode status
 #
 # Let's say your alias is 'mano1'
 # your VPS's IP is 80.70.60.50
-# mano portnumber is: 12777
-# your masternodeprivkey is 93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg (produced by masternode outputs earlier on)
-# Your collateral_output_txid = txhash output from the masternode outputs command you just typed, so: 741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39
-# the collateral_output_index is the outputidx from the masternode outputs command, so: 0
+# The portnumber for mano is: 12777
+# your masternodeprivkey is 93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg (produced by 'masternode genkey' earlier on)
+# Your collateral_output_txid = txhash output from the 'masternode outputs' command you just typed, so: 741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39
+# the collateral_output_index is the outputidx from the 'masternode outputs' command, so: 0
 #
 # The line in the masternode.conf will look like this:
 # mano1 80.70.60.50:12777 93HaYCVGAUC88HF32223BGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 741b76d91a2f410744aaaeee8ddeeeef74d251f49754672777a8257c023575490222bb1cccefb39 0
