@@ -16,7 +16,15 @@
 #
 # Used on Ubuntu 16.04 VPS on Vultr
 #
-# Download the new mano wallet and install it on your desktop machine: https://gitlab.com/manocoin/manocoin/tree/master/releases
+#         First:  
+#         if there is a manocoin wallet present on the system that you whish to use for the installation of the new wallet:
+#
+#         BACKUP your wallet!!!
+#
+# Find the latest mano wallet that matches your desktop machine's OS from the manocoin github repository: 
+# https://gitlab.com/manocoin/manocoin/tree/master/releases
+#
+# Download it and install it on your desktop machine.
 #
 # Start the wallet
 #  
@@ -26,15 +34,16 @@
 # 	If that worked, good!
 #
 # Create a new wallet address 
-# Send the collateral (new collateral for mano is exact 2500) to this new address
+# Send the collateral (new collateral for mano is 2500) to this new address
 # 
-# 		Note about collateral: mind the transfer fee! 
-#		If the transfer fee is 1 and this is deducted from the 2500,
-#		then only 2499 will be sent.
-# 
-# 		Because this amount is less then the required 2500 it will not work. Also higher amounts than 2500 will not work.
+# 		Note about collateral: MIND THE TRANSFER FEE! 
 #
-# 		So exactly 2500, PLUS a small amount that is exactly enough to pay for the transfer. 
+#		  If the transfer fee is 1 and this is deducted from the 2500,
+#		  then only 2499 will be sent.
+# 
+# 		Because this AMOUNT is LESS than the required 2500 it WILL NOT WORK. Also HIGHER AMOUNTS than 2500 WILL NOT WORK.
+#
+# 		So **EXACTLY 2500**, PLUS a small amount that is EXACTLY enough to pay for the transfer. 
 #
 #		(most withdraw/send software propose the required amount for the transaction)
 #
