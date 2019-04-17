@@ -4,7 +4,13 @@
 # 
 # EVERY INSTRUCTION THAT YOU USE FROM THIS DOCUMENT IS AT YOUR OWN RISK
 #
-# LAST WARNING - THIS IS FOR THE NEW MANOCOIN - AFTER THE SWAP OF MARCH 11 - 2019
+#     FINAL WARNING
+#     THIS IS FOR THE
+#
+#     **NEW**
+#     MANOCOIN
+#
+#     - AFTER THE SWAP OF: MARCH 11 - 2019 -
 #
 #
 # Used on Ubuntu 16.04 VPS on Vultr
@@ -119,6 +125,9 @@ manod
 # Note that as the network is still small... It may take a while before you begin syncing.
 # Check if it has finished syncing:
 mano-cli mnsync status
+
+# or use the watch command to update periodically (every 2 secs in this example):
+watch -n 2 mano-cli getinfo
 
 # Check the masternode status
 mano-cli masternode status
