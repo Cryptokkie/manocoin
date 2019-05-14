@@ -95,6 +95,7 @@ manod
 rpcuser=YOURUSER
 rpcpassword=YOURPASS
 rpcallowip=127.0.0.1
+rpcport=PORTNUMBER
 #----
 listen=1
 server=1
@@ -111,6 +112,10 @@ externalip=YOURIP:12777
 #
 # rpcuser=YOURUSER (and YOURPASS) is a string, make it hard to guess: useru80uhl3kjhgo87hwh3goj 
 # rpcpassword=YOURPASS
+#
+# rpcport=PORTNUMBER # Any (free) port you wish to use. 
+#
+# example: rpcport=50009
 #
 # externalip= the ip address of the machine running the masternode (your VPS)
 # 	Find IP address: execute this command from the commandline on your masternode box: 
